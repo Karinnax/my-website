@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <title>Головна</title>
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    // Функція пошуку рецептів (твоя)
+    function searchRecipes() {
+      const input = document.getElementById('searchInput');
+      const filter = input.value.toLowerCase();
+      const ul = document.getElementById('recipeList');
+      if (!ul) return;
+      const li = ul.getElementsByTagName('li');
+      for (let i = 0; i < li.length; i++) {
+        const a = li[i].getElementsByTagName('a')[0];
+        const txtValue = a.textContent || a.innerText;
+        li[i].style.display = txtValue.toLowerCase().includes(filter) ? "" : "none";
+      }
+    }
+
+    // Оновлення меню навігації в залежності від логіну
+    function updateNav() {
+      const nav = document.getElementById('navMenu');
+      const user = localStorage.getItem('user');
+      let html = `
+        <a href="index.html">Головна</a>
+        <a href="catalog.html">Каталог рецептів</a>
+        <a href="add.html">Додати рецепт</a>
+      `;
+      if (user) {
+        // Якщо користувач увійшов — показуємо Профіль і Вихід
+        html += `
+          <a href="profile.html">Профіль (${user})</a>
+          <a href="#" onclick="logout(); return false;">Вихід</a>
+        `;
+      } else {
+        // Якщо ні — Вхід та Реєстрація
+        html += `
+          <a href="login.html">Вхід</a>
+          <a href="register.html">Реєстрація</a>
+        `;
+      }
+
+      // Додаємо пошук
+      html += `
+        <div style="display: flex; align-items: center; gap: 5px; margin-left: 10px;">
+          <input type="text" id="searchInput" placeholder="Пошук рецептів..."
+                 style="padding: 8px 12px; border-radius: 20px; border: 1px solid #ccc; font-size: 14px;">
+          <button onclick="searchRecipes()" style="padding: 8px 16px; border-radius: 20px; background-color: #ff7043; color: white; border: none; font-weight: bold; cursor: pointer;">
+            Шукати
+          </button>
+        </div>
+      `;
+      nav.innerHTML = html;
+    }
+
+    // Вихід користувача
+    function logout() {
+      localStorage.removeItem('user');
+      location.reload();
+    }
+
+    // При завантаженні сторінки оновлюємо меню
+    document.addEventListener('DOMContentLoaded', () => {
+      updateNav();
+    });
+  </script>
+</head>
+<body>
+  <header>Ласкаво просимо на сайт</header>
+  <nav id="navMenu"></nav>
+
+  <main>
+    <h2>Популярні рецепти</h2>
+    <div id="popular-recipes">
+      <div class="recipe-card">
+        <a href="recipe.html?id=1" style="text-decoration: none; color: inherit;">
+          <h3>Гарячий шоколад</h3>
+          <p>Гарячий шоколад - символ затишку, здатний миттєво зігріти найхолодніші вечори. Цей напій насичений смаком какао-бобів, і дарує відчуття комфорту. Якщо хочеться чогось смачного і швидкого в приготуванні, рецепт гарячого шоколаду - ідеальний вибір.</p>
+          <p>❤️ Вподобання: 8</p>
+        </a>
+      </div>
+      <div class="recipe-card">
+        <a href="recipe.html?id=2" style="text-decoration: none; color: inherit;">
+          <h3>Гарбузові вафлі</h3>
+          <p>Гарбузові вафлі - ідеальне осіннє частування, що зігріває в холодні вечори і дарує затишний аромат прянощів. Приготувати їх простіше простого, для цього знадобиться всього кілька хвилин. Ця страва стане відкриттям для тих, хто шукає цікаві осінні рецепти.</p>
+          <p>❤️ Вподобання: 4</p>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer>&copy; 2025 Мій сайт рецептів</footer>
+</body>
+</html>
