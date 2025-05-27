@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <title>Реєстрація</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header>Реєстрація</header>
+  <nav id="navMenu">
+    <a href="index.html">Головна</a>
+    <a href="catalog.html">Каталог рецептів</a>
+    <a href="add.html">Додати рецепт</a>
+    <a href="login.html">Вхід</a>
+    <a href="register.html">Реєстрація</a>
+    <div style="display: flex; align-items: center; gap: 5px; margin-left: 10px;">
+      <input type="text" id="searchInput" placeholder="Пошук рецептів..." style="padding: 8px 12px; border-radius: 20px; border: 1px solid #ccc; font-size: 14px;">
+      <button onclick="searchRecipes()" style="padding: 8px 16px; border-radius: 20px; background-color: #ff7043; color: white; border: none; font-weight: bold; cursor: pointer;">Шукати</button>
+    </div>
+  </nav>
+  <main>
+    <form id="registerForm">
+      <label>Ім’я:<br><input type="text" id="regName" required /></label><br><br>
+      <label>Email:<br><input type="email" id="regEmail" required /></label><br><br>
+      <label>Пароль:<br><input type="password" id="regPass" required /></label><br><br>
+      <button type="submit">Зареєструватися</button>
+    </form>
+  </main>
+  <footer>&copy; 2025 Мій сайт рецептів</footer>
+</body>
+</html>

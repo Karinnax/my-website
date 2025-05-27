@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <title>Додати рецепт</title>
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    function updateNav() {
+      const nav = document.getElementById('navMenu');
+      const user = localStorage.getItem('user');
+      let html = `
+        <a href="index.html">Головна</a>
+        <a href="catalog.html">Каталог рецептів</a>
+        <a href="add.html">Додати рецепт</a>
+      `;
+
+      if (user) {
+        html += `<a href="profile.html">Профіль (${user})</a>
+                 <a href="#" onclick="logout(); return false;">Вихід</a>`;
+      } else {
+        html += `<a href="login.html">Вхід</a>
+                 <a href="register.html">Реєстрація</a>`;
+      }
+
+      nav.innerHTML = html;
+    }
+
+    function logout() {
+      localStorage.removeItem('user');
+      location.reload();
+    }
+
+    function saveRecipe(e) {
+      e.preventDefault();
+
+      const title = document.getElementById('title').value;
+      const ingredients = document.getElementById('ingredients').value;
+      const instructions = document.getElementById('instructions').value;
+      const imageInput = document.getElementById('image');
+
+      if (!title || !ingredients || !instructions) {
+        alert('Будь ласка, заповніть усі поля');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function () {
+        const imageData = reader.result;
+
+        const recipe = { title, ingredients, instructions, image: imageData };
+
+        let recipes = JSON.parse(localStorage.getItem('recipes')) || [];
+        recipes.push(recipe);
+        localStorage.setItem('recipes', JSON.stringify(recipes));
+
+        alert('Рецепт збережено!');
+        window.location.href = "catalog.html";
+      };
+
+      if (imageInput.files.length > 0) {
+        reader.readAsDataURL(imageInput.files[0]);
+      } else {
+        // Якщо зображення не вибрано, зберегти без нього
+        const recipe = { title, ingredients, instructions, image: null };
+        let recipes = JSON.parse(localStorage.getItem('recipes')) || [];
+        recipes.push(recipe);
+        localStorage.setItem('recipes', JSON.stringify(recipes));
+        alert('Рецепт збережено!');
+        window.location.href = "catalog.html";
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updateNav();
+      document.getElementById('recipeForm').addEventListener('submit', saveRecipe);
+    });
+  </script>
+</head>
+<body>
+  <header>Додати рецепт</header>
+  <nav id="navMenu"></nav>
+
+  <main>
+    <form id="recipeForm">
+      <label>Назва рецепта:<br><input type="text" id="title" /></label><br><br>
+      <label>Інгредієнти:<br><textarea id="ingredients" rows="4"></textarea></label><br><br>
+      <label>Інструкції:<br><textarea id="instructions" rows="4"></textarea></label><br><br>
+      <label>Зображення:<br><input type="file" id="image" accept="image/*" /></label><br><br>
+      <button type="submit">Зберегти</button>
+    </form>
+  </main>
+
+  <footer>&copy; 2025 Мій сайт рецептів</footer>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <title>Гарячий шоколад</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .center {
+      text-align: center;
+    }
+    .recipe-image {
+      width: 400px;
+      max-width: 90%;
+      border-radius: 12px;
+      margin: 20px auto;
+      display: block;
+    }
+    .back-arrow {
+      display: block;
+      margin: 40px auto 20px;
+      text-align: center;
+      font-size: 18px;
+      color: #ff7043;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .back-arrow:hover {
+      text-decoration: underline;
+    }
+    #comments {
+      margin-top: 50px;
+    }
+    #commentList {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    #commentList li {
+      background-color: #f9f9f9;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    /* Стилі для модального вікна */
+    #shareModal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    #shareModal > div {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      margin: auto;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+  </style>
+</head>
+<body>
+  <header>Гарячий шоколад</header>
+  <nav>
+    <a href="../index.html">Головна</a>
+    <a href="../catalog.html">Каталог рецептів</a>
+    <a href="../add.html">Додати рецепт</a>
+    <a href="../login.html">Вхід</a>
+    <a href="../register.html">Реєстрація</a>
+  </nav>
+  <main>
+    <h2 class="center">🥣 Рецепт гарячого шоколаду</h2>
+
+    <img src="../images/chocolate.jpg" alt="Гарячий шоколад" class="recipe-image">
+
+    <p><strong>Калорії:</strong> 136</p>
+    <p><strong>Час приготування:</strong> 15 хвилин</p>
+
+    <h3>🛒 Інгредієнти:</h3>
+    <ul>
+      <li>2 склянки молока</li>
+      <li>1/4 склянки шоколадних крапель (напівсолодкі)</li>
+      <li>2 столові ложки какао-порошку</li>
+      <li>1 столова ложка коричневого цукру</li>
+      <li>Щіпка солі</li>
+      <li>1/2 чайної ложки ванільного екстракту</li>
+    </ul>
+
+    <h3>Опис приготування:</h3>
+    <p><strong>Етап 1: Підготовка інгредієнтів:</strong></p>
+    <ol>
+      <li>У невеликій каструлі з'єднайте молоко і шоколадні краплі.</li>
+      <li>Додайте какао-порошок.</li>
+      <li>Тепер додайте коричневий цукор і дрібку солі.</li>
+    </ol>
+    <p><strong>Етап 2: Приготування гарячого шоколаду:</strong></p>
+    <ol>
+      <li>Нагрівайте суміш, не доводячи до кипіння. Шоколад повинен повністю розчинитися в молоці, створюючи гладку і густу текстуру.</li>
+      <li>Цей процес займе близько 10 хвилин, не забувайте періодично помішувати вінчиком.</li>
+      <li>Зніміть каструлю з вогню, додайте ванільний екстракт і ретельно перемішайте.</li>
+      <li>Подавайте гарячий шоколад у чашках, прикрасивши його збитими вершками або маршмеллоу за смаком.</li>
+    </ol>
+
+    <p>Смачного! 🍫</p>
+
+    <div id="interaction" style="text-align: center; margin: 30px 0;">
+      <button id="likeButton" style="background-color: #ff7043; color: white; border: none; border-radius: 6px; padding: 8px 16px; cursor: pointer;">
+        ❤️ Подобається (<span id="likeCount">0</span>)
+      </button>
+      <p style="margin-top: 10px;">👁 Переглядів: <span id="viewCount">0</span></p>
+    </div>
+
+    <!-- Кнопка Поділитися -->
+    <div style="text-align: center; margin: 20px 0;">
+      <button id="shareButton" style="background-color: #4CAF50; color: white; border: none; border-radius: 6px; padding: 8px 16px; cursor: pointer;">
+        📤 Поділитися рецептом
+      </button>
+    </div>
+
+    <a href="../catalog.html" class="back-arrow">⬅ Повернутися до каталогу</a>
+
+    <section id="comments">
+      <h3>💬 Коментарі</h3>
+      <ul id="commentList"></ul>
+      <form id="commentForm">
+        <textarea id="commentInput" rows="3" placeholder="Напишіть свій коментар..." required style="width: 100%; padding: 10px; margin-top: 10px;"></textarea><br>
+        <button type="submit" style="margin-top: 10px; padding: 8px 16px; background-color: #ff7043; color: white; border: none; border-radius: 6px; cursor: pointer;">
+          Надіслати
+        </button>
+      </form>
+    </section>
+  </main>
+
+  <footer>&copy; 2025 Мій сайт рецептів</footer>
+
+  <!-- Модальне вікно для поділу -->
+  <div id="shareModal">
+    <div>
+      <h3>Поділіться рецептом</h3>
+      <input type="text" id="shareLink" readonly style="width: 100%; padding: 10px; margin-bottom: 10px;"/>
+      <button id="copyLinkButton" style="background-color: #ff7043; color: white; border: none; border-radius: 6px; padding: 8px 16px; cursor: pointer;">Копіювати посилання</button>
+      <button id="closeModal" style="margin-left: 10px; padding: 8px 16px; cursor: pointer;">Закрити</button>
+      <p id="copyMessage" style="color: green; margin-top: 10px; display:none;">Посилання скопійовано!</p>
+    </div>
+  </div>
+
+  <script>
+    const recipeId = "chocolate";
+    const likeKey = `likes_${recipeId}`;
+    const viewKey = `views_${recipeId}`;
+    const commentKey = `comments_${recipeId}`;
+
+    function incrementViews() {
+      let views = parseInt(localStorage.getItem(viewKey)) || 0;
+      views++;
+      localStorage.setItem(viewKey, views);
+      document.getElementById('viewCount').textContent = views;
+    }
+
+    function loadLikes() {
+      const likes = parseInt(localStorage.getItem(likeKey)) || 0;
+      document.getElementById('likeCount').textContent = likes;
+    }
+
+    function likeRecipe() {
+      let likes = parseInt(localStorage.getItem(likeKey)) || 0;
+      likes++;
+      localStorage.setItem(likeKey, likes);
+      document.getElementById('likeCount').textContent = likes;
+    }
+
+    function loadComments() {
+      const comments = JSON.parse(localStorage.getItem(commentKey)) || [];
+      const list = document.getElementById('commentList');
+      list.innerHTML = "";
+      comments.forEach(comment => {
+        const li = document.createElement('li');
+        li.textContent = comment;
+        list.appendChild(li);
+      });
+    }
+
+    document.getElementById('commentForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const input = document.getElementById('commentInput');
+      const text = input.value.trim();
+      if (text !== "") {
+        const comments = JSON.parse(localStorage.getItem(commentKey)) || [];
+        comments.push(text);
+        localStorage.setItem(commentKey, JSON.stringify(comments));
+        input.value = "";
+        loadComments();
+      }
+    });
+
+    document.getElementById('likeButton').addEventListener('click', likeRecipe);
+
+    document.addEventListener('DOMContentLoaded', function () {
+      incrementViews();
+      loadLikes();
+      loadComments();
+    });
+
+    // --- Код для поділу рецептом ---
+    const shareButton = document.getElementById('shareButton');
+    const shareModal = document.getElementById('shareModal');
+    const shareLinkInput = document.getElementById('shareLink');
+    const copyLinkButton = document.getElementById('copyLinkButton');
+    const closeModal = document.getElementById('closeModal');
+    const copyMessage = document.getElementById('copyMessage');
+
+    shareButton.addEventListener('click', () => {
+      shareLinkInput.value = window.location.href;
+      copyMessage.style.display = 'none';
+      shareModal.style.display = 'flex';
+    });
+
+    closeModal.addEventListener('click', () => {
+      shareModal.style.display = 'none';
+    });
+
+    copyLinkButton.addEventListener('click', () => {
+      shareLinkInput.select();
+      shareLinkInput.setSelectionRange(0, 99999); // Для мобільних
+      navigator.clipboard.writeText(shareLinkInput.value).then(() => {
+        copyMessage.style.display = 'block';
+      }).catch(() => {
+        alert('Не вдалося скопіювати посилання, скопіюйте вручну.');
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <script src="script.js" defer></script>
+  <meta charset="UTF-8" />
+  <title>Каталог рецептів</title>
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    function searchRecipes() {
+      const input = document.getElementById('searchInput');
+      const filter = input.value.toLowerCase();
+      const ul = document.getElementById('recipeList');
+      if (!ul) return;
+      const li = ul.getElementsByTagName('li');
+      for (let i = 0; i < li.length; i++) {
+        const a = li[i].getElementsByTagName('a')[0];
+        const txtValue = a.textContent || a.innerText;
+        li[i].style.display = txtValue.toLowerCase().includes(filter) ? "" : "none";
+      }
+    }
+
+    function updateNav() {
+      const nav = document.getElementById('navMenu');
+      const user = localStorage.getItem('user');
+      let html = `
+        <a href="index.html" style="text-decoration: none; color: black; font-weight: 600; margin-right: 10px;">Головна</a>
+        <a href="catalog.html" style="text-decoration: none; color: black; font-weight: 600; margin-right: 10px;">Каталог рецептів</a>
+        <a href="add.html" style="text-decoration: none; color: black; font-weight: 600; margin-right: 10px;">Додати рецепт</a>
+      `;
+
+      if (user) {
+        html += `
+          <a href="profile.html" style="text-decoration: none; color: #ff7043; font-weight: 700; margin-right: 10px;">
+            Профіль (${user})
+          </a>
+          <a href="#" onclick="logout(); return false;" 
+             style="text-decoration: none; color: white; background-color: #ff7043; padding: 8px 16px; border-radius: 20px; font-weight: 700; margin-left: 10px;">
+            Вихід
+          </a>
+        `;
+      } else {
+        html += `
+          <a href="login.html" style="text-decoration: none; color: #ff7043; font-weight: 700; margin-right: 10px;">Вхід</a>
+          <a href="register.html" style="text-decoration: none; color: #ff7043; font-weight: 700; margin-right: 10px;">Реєстрація</a>
+        `;
+      }
+
+      html += `
+        <div style="display: flex; align-items: center; gap: 5px; margin-left: 10px;">
+          <input type="text" id="searchInput" placeholder="Пошук рецептів..."
+                 style="padding: 8px 12px; border-radius: 20px; border: 1px solid #ccc; font-size: 14px;">
+          <button onclick="searchRecipes()" 
+                  style="padding: 8px 16px; border-radius: 20px; background-color: #ff7043; color: white; border: none; font-weight: 700; cursor: pointer;">
+            Шукати
+          </button>
+        </div>
+      `;
+
+      nav.style.display = 'flex';
+      nav.style.alignItems = 'center';
+      nav.innerHTML = html;
+    }
+
+    function logout() {
+      localStorage.removeItem('user');
+      location.reload();
+    }
+
+    function loadUserRecipes() {
+      const list = document.getElementById('recipeList');
+      const storedRecipes = JSON.parse(localStorage.getItem('recipes')) || [];
+
+      storedRecipes.forEach(recipe => {
+        const li = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = '#';
+        link.textContent = recipe.title || recipe.name || "Рецепт без назви";
+        link.style.fontWeight = '600';
+        li.appendChild(link);
+        list.appendChild(li);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updateNav();
+      loadUserRecipes();
+    });
+  </script>
+</head>
+<body>
+  <header>Каталог рецептів</header>
+  <nav id="navMenu"></nav>
+
+  <main>
+    <h2>Усі рецепти</h2>
+    <ul id="recipeList">
+      <li><a href="recipes/croissant.html">Круасан з шоколадом</a></li>
+      <li><a href="recipes/panini.html">Паніні капрезе</a></li>
+      <li><a href="recipes/chocolate.html">Гарячий шоколад</a></li>
+      <li><a href="recipes/wafles.html">Гарбузові вафлі</a></li>
+    </ul>
+  </main>
+  <footer>&copy; 2025 Мій сайт рецептів</footer>
+</body>
+</html>
